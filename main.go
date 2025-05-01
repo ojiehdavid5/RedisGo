@@ -10,8 +10,31 @@ import (
 
 )
 func main() {
+	var ctx = context.Background()
 
-	
+	opt, err := redis.ParseURL("redis://<user>:<pass>@localhost:6379/<db>")
+if err != nil {
+ panic(err)
+}
+
+client := redis.NewClient(opt)
+
+// Set a key-value pair
+err := client.Set(ctx, "greeting", "Hello, Redis!", 0).Err()
+if err != nil {
+ log.Fatal(err)
+}
+
+
+// Get the value of the key
+val, err := client.Get(ctx, "greeting").Result()
+if err != nil {	
+	 log.Fatal(err)
+}
+fmt.Println("Value of 'greeting':", val)
+
+
+
 
 
 
